@@ -3,10 +3,19 @@ import TaskCore
 
 public struct TaskRowView: View {
     let task: Task
+    let showDueDates: Bool
+    let showPriorities: Bool
     let toggleCompletion: () -> Void
 
-    public init(task: Task, toggleCompletion: @escaping () -> Void) {
+    public init(
+        task: Task,
+        showDueDates: Bool,
+        showPriorities: Bool,
+        toggleCompletion: @escaping () -> Void
+    ) {
         self.task = task
+        self.showDueDates = showDueDates
+        self.showPriorities = showPriorities
         self.toggleCompletion = toggleCompletion
     }
 
@@ -19,12 +28,12 @@ public struct TaskRowView: View {
             VStack(alignment: .leading) {
                 Text(task.title)
                     .strikethrough(task.isCompleted)
-                if let dueDate = task.dueDate {
+                if showDueDates, let dueDate = task.dueDate {
                     Text("Vence: \(dueDate.formatted(date: .abbreviated, time: .shortened))")
                         .font(.caption)
                         .foregroundColor(.secondary)
                 }
-                if let priority = task.priority {
+                if showPriorities, let priority = task.priority {
                     Text("Prioridad: \(priority.rawValue)")
                         .font(.caption)
                         .foregroundColor(priorityColor(for: priority))

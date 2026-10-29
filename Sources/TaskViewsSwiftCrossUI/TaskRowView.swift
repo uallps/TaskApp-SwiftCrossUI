@@ -9,10 +9,19 @@ import TaskCore
 /// - el texto secundario usa `Color.gray`.
 public struct TaskRowView: View {
     let task: Task
+    let showDueDates: Bool
+    let showPriorities: Bool
     let toggleCompletion: () -> Void
 
-    public init(task: Task, toggleCompletion: @escaping () -> Void) {
+    public init(
+        task: Task,
+        showDueDates: Bool,
+        showPriorities: Bool,
+        toggleCompletion: @escaping () -> Void
+    ) {
         self.task = task
+        self.showDueDates = showDueDates
+        self.showPriorities = showPriorities
         self.toggleCompletion = toggleCompletion
     }
 
@@ -29,12 +38,12 @@ public struct TaskRowView: View {
                 } else {
                     Text(task.title)
                 }
-                if let dueDate = task.dueDate {
+                if showDueDates, let dueDate = task.dueDate {
                     Text("Vence: \(dueDate.formatted(date: .abbreviated, time: .shortened))")
                         .font(.caption)
                         .foregroundColor(.gray)
                 }
-                if let priority = task.priority {
+                if showPriorities, let priority = task.priority {
                     Text("Prioridad: \(priority.rawValue)")
                         .font(.caption)
                         .foregroundColor(priorityColor(for: priority))
