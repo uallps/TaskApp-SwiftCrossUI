@@ -1,14 +1,10 @@
 import SwiftUI
 
 struct TaskListView: View {
-    let tasks = [
-        Task(title: "Preparar clase"),
-        Task(title: "Revisar prácticas"),
-        Task(title: "Publicar materiales")
-    ]
+    @State private var viewModel = TaskListViewModel()
 
     var body: some View {
-        List(tasks) { task in
+        List(viewModel.tasks) { task in
             Text(task.title)
         }
     }
