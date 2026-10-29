@@ -22,10 +22,31 @@ let package = Package(
     targets: [
         // Modelo y ViewModel: Swift puro, común a todos los productos.
         .target(name: "TaskCore"),
-        // Fachada de interfaz: reexporta el framework elegido por el trait.
+        // Vistas propias de cada versión: misma API pública, distinta implementación.
+        // Se escriben cuando un framework no soporta algo que usa la otra versión.
+        .target(name: "TaskViewsSwiftUI", dependencies: ["TaskCore"]),
+        .target(
+            name: "TaskViewsSwiftCrossUI",
+            dependencies: [
+                "TaskCore",
+                .product(
+                    name: "SwiftCrossUI",
+                    package: "swift-cross-ui",
+                    condition: .when(traits: ["SwiftCrossUI"])
+                ),
+                .product(
+                    name: "DefaultBackend",
+                    package: "swift-cross-ui",
+                    condition: .when(traits: ["SwiftCrossUI"])
+                ),
+            ]
+        ),
+        // Fachada de interfaz: reexporta el framework y las vistas del trait elegido.
         .target(
             name: "TaskUI",
             dependencies: [
+                .target(name: "TaskViewsSwiftUI", condition: .when(traits: ["SwiftUI"])),
+                .target(name: "TaskViewsSwiftCrossUI", condition: .when(traits: ["SwiftCrossUI"])),
                 .product(
                     name: "SwiftCrossUI",
                     package: "swift-cross-ui",

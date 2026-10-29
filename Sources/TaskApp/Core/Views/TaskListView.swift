@@ -7,11 +7,8 @@ struct TaskListView: View {
     var body: some View {
         VStack {
             ForEach(viewModel.tasks) { task in
-                HStack {
-                    Button(task.isCompleted ? "✓" : "○") {
-                        viewModel.toggleCompletion(id: task.id)
-                    }
-                    Text(task.title)
+                TaskRowView(task: task) {
+                    viewModel.toggleCompletion(id: task.id)
                 }
             }
             Button("Añadir tarea") {
