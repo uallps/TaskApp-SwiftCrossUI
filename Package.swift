@@ -11,6 +11,7 @@ let package = Package(
     traits: [
         .trait(name: "SwiftUI", description: "Producto con SwiftUI (solo Apple)"),
         .trait(name: "SwiftCrossUI", description: "Producto con SwiftCrossUI"),
+        .trait(name: "Prioridades", description: "Característica opcional: prioridad de la tarea"),
         .default(enabledTraits: ["SwiftUI"]),
     ],
     dependencies: [

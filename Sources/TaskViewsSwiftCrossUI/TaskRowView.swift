@@ -43,11 +43,13 @@ public struct TaskRowView: View {
                         .font(.caption)
                         .foregroundColor(.gray)
                 }
+#if Prioridades
                 if showPriorities, let priority = task.priority {
                     Text("Prioridad: \(priority.rawValue)")
                         .font(.caption)
                         .foregroundColor(priorityColor(for: priority))
                 }
+#endif
             }
         }
     }
